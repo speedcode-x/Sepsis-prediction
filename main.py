@@ -26,7 +26,7 @@ def home():
 @app.post('/predict_random_forest')
 def random_forest_prediction(data:features):
 
-    #convert model to a dictionary and rhen a dataframe
+    #convert model to a dictionary and then a dataframe
     df = pd.DataFrame([data.model_dump()])
 
     #make prediction
@@ -41,11 +41,18 @@ def random_forest_prediction(data:features):
     #extract probabilities
     probabilities = forest_pipeline.predict_proba(df)
     probabilities = probabilities[0]
+    
     # convert probabilities to list
     probabilities = probabilities.tolist()
     # probabilities = probabilities[1:]
 
     return {'Prediction':prediction_label, 'Probabilities':probabilities}
+
+@app.get('/')
+def documentation():
+    return{'description':'All'}
+
+
     
 
 if __name__ == '__main__':
