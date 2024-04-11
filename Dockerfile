@@ -5,10 +5,10 @@ FROM python:3.11.5
 WORKDIR /app
 
 # copy the content of requirements.txt into a temp directory in the container
-COPY requirement.txt temp/requirements.txt
+COPY requirements.txt /temp/requirements.txt
 
 #install packages in requirement.txt
-RUN python -m pip install --timeout 300000 -r requirements.txt
+RUN python -m pip install --timeout 300000 -r /temp/requirements.txt
 
 #copy all files into the working dirctory
 COPY . /app
