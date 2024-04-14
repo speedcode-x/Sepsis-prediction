@@ -17,11 +17,35 @@ class features(BaseModel):
     BD2:float
     
 forest_pipeline = joblib.load("./models/best_Random Forest_model.pkl")
+k_nearest_pipeline = joblib.load("./best_K-Nearest Neighbors_model.pkl")
 
 @app.get('/')
 def home():
     return{"status Health": "OK"}
 
+@app.post('/predict_k_nearest')
+def k_nearest_prediction(data:features):
+    #convert model to a dictionary and then a dataframe
+    df = pd.DataFrame([data.model_dump()])
+
+    #make prediction
+    prediction= k_nearest_pipeline.predict(df)
+
+    #covert prediction array to int
+    prediction = int(prediction[0])
+
+    # Map numerical prediction to "Yes" or "No"
+    prediction_label = "Yes" if prediction == 1 else "No"
+
+    #extract probabilities
+    probabilities = forest_pipeline.predict_proba(df)
+    probabilities = probabilities[0]
+    
+    # convert probabilities to list
+    probabilities = probabilities.tolist()
+    # probabilities = probabilities[1:]
+
+    return {'Prediction':prediction_label, 'Probabilities':probabilities}
 
 @app.post('/predict_random_forest')
 def random_forest_prediction(data:features):
