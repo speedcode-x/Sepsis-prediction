@@ -17,7 +17,7 @@ class features(BaseModel):
     BD2:float
     
 forest_pipeline = joblib.load("./models/best_Random Forest_model.pkl")
-k_nearest_pipeline = joblib.load("./best_K-Nearest Neighbors_model.pkl")
+k_nearest_pipeline = joblib.load("./models/best_K-Nearest Neighbors_model.pkl")
 
 @app.get('/')
 def home():
@@ -43,7 +43,7 @@ def k_nearest_prediction(data:features):
     
     # convert probabilities to list
     probabilities = probabilities.tolist()
-    # probabilities = probabilities[1:]
+    
 
     return {'Prediction':prediction_label, 'Probabilities':probabilities}
 
@@ -68,7 +68,7 @@ def random_forest_prediction(data:features):
     
     # convert probabilities to list
     probabilities = probabilities.tolist()
-    # probabilities = probabilities[1:]
+    
 
     return {'Prediction':prediction_label, 'Probabilities':probabilities}
 
